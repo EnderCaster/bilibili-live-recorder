@@ -24,7 +24,6 @@ def inform(room_id, desp=''):
             'room_title': desp,
         }
         resp = requests.get(url=config.inform_url, params=param)
-        print(resp.content)
         print_log(room_id=room_id,
                   content='success') if resp.status_code == 200 else None
     else:

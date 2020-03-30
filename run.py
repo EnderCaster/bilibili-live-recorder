@@ -26,20 +26,19 @@ class BiliBiliLiveRecorder(BiliBiliLive):
         while True:
             room_info = self.get_room_info()
             try:
+                self.print(self.room_id,"scanning...")
                 if room_info['status']:
                     if not self.informed:
                         self.inform(room_id=self.room_id,
                                     desp=room_info['roomname'])
                         self.print(self.room_id, room_info['roomname'])
                         self.informed=True
-                    break
                 else:
                     self.informed=False
                     self.print(self.room_id, env_lang.get("msg.waiting"))
             except Exception as e:
                 self.print(self.room_id, 'Error:' + str(e))
             time.sleep(interval*(1+random.random()))
-        return self.get_live_urls()
 
     def record(self, record_url, output_filename):
         self.print(self.room_id, env_lang.get("msg.recording") + self.room_id)
@@ -58,11 +57,11 @@ class BiliBiliLiveRecorder(BiliBiliLive):
 
     def run(self):
         while True:
-            try:
-                urls = self.check(interval=config.check_interval)
-            except Exception as e:
-                self.print(
-                    self.room_id, 'Error while checking or recording:' + str(e))
+            # try:
+            self.check(interval=config.check_interval)
+            # except Exception as e:
+            #     self.print(
+            #         self.room_id, 'Error while checking or recording:' + str(e))
 
 
 if __name__ == '__main__':
