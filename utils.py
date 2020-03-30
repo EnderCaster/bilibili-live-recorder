@@ -20,12 +20,13 @@ def generate_filename(room_id):
 def inform(room_id, desp=''):
     if config.enable_inform:
         param = {
-            'text': '直播间：{} 开始直播啦！'.format(room_id),
-            'desp': desp,
+            'room_id': room_id,
+            'room_title': desp,
         }
         resp = requests.get(url=config.inform_url, params=param)
+        print(resp.content)
         print_log(room_id=room_id,
-                  content='通知完成！') if resp.status_code == 200 else None
+                  content='success') if resp.status_code == 200 else None
     else:
         pass
 
