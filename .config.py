@@ -1,10 +1,18 @@
 # 是否开启通知功能
 enable_inform = False
-# Server酱 api地址
-inform_url = 'https://sc.ftqq.com/1234.send'
+# api地址
+inform_url = ''
+inform_sign=''
 # 直播间ID （list）
-rooms = ['']  # '1075', '547028', '8694442'
-# env,终端环境有时只支持ascii
-env = "origin"
+rooms = [
+    '116',# 岚少
+    '5288',# 菊花姐
+    '337374',#绫奈奈奈
+    '4138602',#虚拟次元计划
+    '704808',#OR
+    '5342167',#Tacitly
+    "10209381",#HH
+    "21602686",#新科娘
+    ]  # '1075', '547028', '8694442'
 # 检测是否开播间隔(秒)
-check_interval=5*60
+check_interval=60

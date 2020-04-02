@@ -1,7 +1,7 @@
 import time
 import requests
 import config
-import env_lang
+import hashlib
 
 
 def get_current_time(time_format):
@@ -10,22 +10,18 @@ def get_current_time(time_format):
     return current_time
 
 
-def generate_filename(room_id):
-    data = dict()
-    data['c_time'] = get_current_time('%Y%m%d_%H%M')
-    data['room_id'] = room_id
-    return '_'.join(data.values()) + '.flv'
-
-
-def inform(room_id, desp=''):
+def inform(room_id, desp='',user=''):
     if config.enable_inform:
+        p_hash= hashlib.md5(("{},{},{},{}".format(room_id,desp,user,config.inform_sign)).encode("utf8")).hexdigest()
         param = {
             'room_id': room_id,
             'room_title': desp,
+            'user_name':user,
+            'sign':p_hash
         }
         resp = requests.get(url=config.inform_url, params=param)
         print_log(room_id=room_id,
-                  content='success') if resp.status_code == 200 else None
+                  content=resp.text) if resp.status_code == 200 else None
     else:
         pass
 
@@ -33,10 +29,5 @@ def inform(room_id, desp=''):
 def print_log(room_id='None', content='None'):
     brackets = '[{}]'
     time_part = brackets.format(get_current_time('%Y-%m-%d %H:%M:%S'))
-    room_part = brackets.format(env_lang.get('label.living_room') + room_id)
+    room_part = brackets.format("living room: {}".format(room_id))
     print(time_part, room_part, content)
-
-
-if __name__ == '__main__':
-    print(generate_filename('1075'))
-    print_log(content='开始录制')
